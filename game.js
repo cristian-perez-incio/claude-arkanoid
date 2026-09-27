@@ -91,6 +91,13 @@ function update() {
   checkPaddleCollision();
   checkBrickCollisions();
   checkBallOutOfBounds();
+  checkWinCondition();
+}
+
+function checkWinCondition() {
+  if ( state.bricks.every( ( brick ) => !brick.alive ) ) {
+    state.status = 'won';
+  }
 }
 
 const BRICK_ROWS = 6;
@@ -176,6 +183,24 @@ function drawHud() {
   ctx.fillText( `Vidas: ${ state.lives }`, canvas.width - 120, 28 );
 }
 
+function drawOverlay() {
+  if ( state.status === 'playing' ) return;
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+  ctx.fillRect( 0, 0, canvas.width, canvas.height );
+
+  const message = state.status === 'won' ? '¡Ganaste!' : 'Game Over';
+
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.font = '48px sans-serif';
+  ctx.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
+
+  ctx.font = '20px sans-serif';
+  ctx.fillText( 'Presiona R para reiniciar', canvas.width / 2, canvas.height / 2 + 24 );
+  ctx.textAlign = 'left';
+}
+
 function draw() {
   ctx.clearRect( 0, 0, canvas.width, canvas.height );
 
@@ -189,10 +214,13 @@ function draw() {
 
   drawExplosions();
   drawHud();
+  drawOverlay();
 }
 
 function loop() {
-  update();
+  if ( state.status === 'playing' ) {
+    update();
+  }
   draw();
   requestAnimationFrame( loop );
 }
