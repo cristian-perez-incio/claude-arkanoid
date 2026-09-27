@@ -39,6 +39,40 @@ function updatePaddle() {
   state.paddle.x = clampPaddleX( state.paddle.x );
 }
 
+function resetBallOnPaddle() {
+  const ball = state.ball;
+  ball.x = state.paddle.x + state.paddle.width / 2;
+  ball.y = state.paddle.y - ball.radius;
+  ball.vx = 4;
+  ball.vy = -4;
+}
+
+function checkPaddleCollision() {
+  const ball = state.ball;
+  const paddle = state.paddle;
+
+  if (
+    ball.vy > 0 &&
+    ball.y + ball.radius >= paddle.y &&
+    ball.y + ball.radius <= paddle.y + paddle.height &&
+    ball.x >= paddle.x &&
+    ball.x <= paddle.x + paddle.width
+  ) {
+    ball.vy *= -1;
+  }
+}
+
+function checkBallOutOfBounds() {
+  if ( state.ball.y - state.ball.radius > canvas.height ) {
+    state.lives -= 1;
+    if ( state.lives <= 0 ) {
+      state.status = 'lost';
+    } else {
+      resetBallOnPaddle();
+    }
+  }
+}
+
 function update() {
   updatePaddle();
 
@@ -53,6 +87,9 @@ function update() {
   if ( ball.y - ball.radius < 0 ) {
     ball.vy *= -1;
   }
+
+  checkPaddleCollision();
+  checkBallOutOfBounds();
 }
 
 function draw() {
