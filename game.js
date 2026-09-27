@@ -16,6 +16,10 @@ const keys = { left: false, right: false };
 window.addEventListener( 'keydown', ( e ) => {
   if ( e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ) keys.left = true;
   if ( e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' ) keys.right = true;
+
+  if ( ( e.key === 'r' || e.key === 'R' ) && state.status !== 'playing' ) {
+    resetGame();
+  }
 } );
 
 window.addEventListener( 'keyup', ( e ) => {
@@ -128,6 +132,20 @@ function createBricks() {
 
 state.bricks = createBricks();
 state.explosions = [];
+
+function resetGame() {
+  state.status = 'playing';
+  state.score = 0;
+  state.lives = 3;
+  state.paddle.x = 360;
+  state.paddle.y = 560;
+  state.ball.x = 400;
+  state.ball.y = 300;
+  state.ball.vx = 4;
+  state.ball.vy = -4;
+  state.bricks = createBricks();
+  state.explosions = [];
+}
 
 function checkBrickCollisions() {
   const ball = state.ball;
