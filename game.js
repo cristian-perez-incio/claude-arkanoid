@@ -194,11 +194,24 @@ function drawExplosions() {
   } );
 }
 
+const RETRO_FONT = "'Press Start 2P', monospace";
+
+const LIFE_ICON_SIZE = 16;
+const LIFE_ICON_GAP = 6;
+
 function drawHud() {
   ctx.fillStyle = '#fff';
-  ctx.font = '20px sans-serif';
+  ctx.font = `14px ${ RETRO_FONT }`;
   ctx.fillText( `Puntaje: ${ state.score }`, 16, 28 );
-  ctx.fillText( `Vidas: ${ state.lives }`, canvas.width - 120, 28 );
+
+  const iconsWidth = state.lives * LIFE_ICON_SIZE + ( state.lives - 1 ) * LIFE_ICON_GAP;
+  let iconX = canvas.width - 16 - iconsWidth;
+  const iconY = 16;
+
+  for ( let i = 0; i < state.lives; i++ ) {
+    drawSprite( ctx, 'ball', iconX, iconY, LIFE_ICON_SIZE, LIFE_ICON_SIZE );
+    iconX += LIFE_ICON_SIZE + LIFE_ICON_GAP;
+  }
 }
 
 function drawOverlay() {
@@ -211,11 +224,11 @@ function drawOverlay() {
 
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'center';
-  ctx.font = '48px sans-serif';
+  ctx.font = `32px ${ RETRO_FONT }`;
   ctx.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
 
-  ctx.font = '20px sans-serif';
-  ctx.fillText( 'Presiona R para reiniciar', canvas.width / 2, canvas.height / 2 + 24 );
+  ctx.font = `14px ${ RETRO_FONT }`;
+  ctx.fillText( 'Presiona R para reiniciar', canvas.width / 2, canvas.height / 2 + 40 );
   ctx.textAlign = 'left';
 }
 
