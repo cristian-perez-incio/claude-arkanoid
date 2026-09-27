@@ -10,6 +10,20 @@ const state = {
   bricks: [],
 };
 
+function update() {
+  const ball = state.ball;
+
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+
+  if ( ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width ) {
+    ball.vx *= -1;
+  }
+  if ( ball.y - ball.radius < 0 ) {
+    ball.vy *= -1;
+  }
+}
+
 function draw() {
   ctx.clearRect( 0, 0, canvas.width, canvas.height );
 
@@ -17,4 +31,10 @@ function draw() {
   drawSprite( ctx, 'ball', state.ball.x - state.ball.radius, state.ball.y - state.ball.radius, state.ball.radius * 2, state.ball.radius * 2 );
 }
 
-loadSpritesheet( draw );
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame( loop );
+}
+
+loadSpritesheet( loop );
