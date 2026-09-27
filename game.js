@@ -89,6 +89,7 @@ function update() {
   }
 
   checkPaddleCollision();
+  checkBrickCollisions();
   checkBallOutOfBounds();
 }
 
@@ -119,6 +120,61 @@ function createBricks() {
 }
 
 state.bricks = createBricks();
+state.explosions = [];
+
+function checkBrickCollisions() {
+  const ball = state.ball;
+
+  for ( const brick of state.bricks ) {
+    if ( !brick.alive ) continue;
+
+    if (
+      ball.x + ball.radius > brick.x &&
+      ball.x - ball.radius < brick.x + brick.width &&
+      ball.y + ball.radius > brick.y &&
+      ball.y - ball.radius < brick.y + brick.height
+    ) {
+      brick.alive = false;
+      ball.vy *= -1;
+      state.score += 10;
+      spawnExplosion( brick );
+      break;
+    }
+  }
+}
+
+function spawnExplosion( brick ) {
+  state.explosions.push( {
+    frames: EXPLOSION_FRAMES[ brick.color ],
+    x: brick.x,
+    y: brick.y,
+    width: brick.width,
+    height: brick.height,
+    startTime: performance.now(),
+  } );
+}
+
+function drawExplosions() {
+  const now = performance.now();
+
+  state.explosions = state.explosions.filter( ( explosion ) => {
+    const elapsed = now - explosion.startTime;
+    const frameDuration = EXPLOSION_DURATION / explosion.frames.length;
+    const frameIndex = Math.floor( elapsed / frameDuration );
+
+    if ( frameIndex >= explosion.frames.length ) return false;
+
+    drawFrame( ctx, explosion.frames[ frameIndex ], explosion.x, explosion.y, explosion.width, explosion.height );
+    return true;
+  } );
+}
+
+function drawHud() {
+  ctx.fillStyle = '#fff';
+  ctx.font = '20px sans-serif';
+  ctx.fillText( `Puntaje: ${ state.score }`, 16, 28 );
+  ctx.fillText( `Vidas: ${ state.lives }`, canvas.width - 120, 28 );
+}
 
 function draw() {
   ctx.clearRect( 0, 0, canvas.width, canvas.height );
@@ -130,6 +186,9 @@ function draw() {
 
   drawSprite( ctx, 'paddle', state.paddle.x, state.paddle.y, state.paddle.width, state.paddle.height );
   drawSprite( ctx, 'ball', state.ball.x - state.ball.radius, state.ball.y - state.ball.radius, state.ball.radius * 2, state.ball.radius * 2 );
+
+  drawExplosions();
+  drawHud();
 }
 
 function loop() {
