@@ -232,7 +232,10 @@ function drawHud() {
   ctx.fillStyle = '#fff';
   ctx.font = `14px ${ RETRO_FONT }`;
   ctx.fillText( `Puntaje: ${ state.score }`, 16, 28 );
-  ctx.fillText( `Nivel ${ state.level + 1 }/${ LEVELS.length }`, 16, 52 );
+
+  ctx.textAlign = 'center';
+  ctx.fillText( `Nivel ${ state.level + 1 }/${ LEVELS.length }`, canvas.width / 2, 28 );
+  ctx.textAlign = 'left';
 
   const iconsWidth = state.lives * LIFE_ICON_SIZE + ( state.lives - 1 ) * LIFE_ICON_GAP;
   let iconX = canvas.width - 16 - iconsWidth;

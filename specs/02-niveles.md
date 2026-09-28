@@ -1,6 +1,6 @@
 # SPEC 02 — Progresión de niveles
 
-> **Status:** Approved
+> **Status:** Implemented
 > **Depends on:** SPEC 01
 > **Date:** 2026-09-27
 > **Objective:** Añadir 3 niveles con layouts de bloques distintos y dificultad creciente, jugables en secuencia sin perder puntaje ni vidas entre uno y otro.
@@ -87,14 +87,14 @@ Conventions:
 
 ## Acceptance criteria
 
-- [ ] El nivel 1 se ve idéntico al grid 10x6 completo de SPEC 01.
-- [ ] Al romper todos los bloques del nivel 1 se detiene el juego y se muestra el overlay "¡Nivel completado!", sin perder vidas ni puntaje.
-- [ ] Presionar la barra espaciadora en el overlay "¡Nivel completado!" arranca el nivel 2 con su layout de marco (borde relleno, centro vacío) y la bola visiblemente más rápida que en el nivel 1.
-- [ ] Al completar el nivel 2, el nivel 3 arranca con el layout de rombo y una velocidad aún mayor que la del nivel 2.
-- [ ] Al romper todos los bloques del nivel 3 se muestra el overlay "¡Ganaste!" (no "¡Nivel completado!").
-- [ ] El HUD muestra `Nivel X/3` con el número correcto durante toda la partida.
-- [ ] Perder todas las vidas en cualquier nivel muestra "Game Over"; presionar R reinicia siempre en el nivel 1, con `score: 0`, `lives: 3` y velocidad base.
-- [ ] Perder una vida dentro de un nivel (sin llegar a 0) reposiciona la bola sobre la pala manteniendo la velocidad correspondiente al nivel actual (no vuelve a la velocidad base del nivel 1).
+- [x] El nivel 1 se ve idéntico al grid 10x6 completo de SPEC 01.
+- [x] Al romper todos los bloques del nivel 1 se detiene el juego y se muestra el overlay "¡Nivel completado!", sin perder vidas ni puntaje.
+- [x] Presionar la barra espaciadora en el overlay "¡Nivel completado!" arranca el nivel 2 con su layout de marco (borde relleno, centro vacío) y la bola visiblemente más rápida que en el nivel 1.
+- [x] Al completar el nivel 2, el nivel 3 arranca con el layout de rombo y una velocidad aún mayor que la del nivel 2.
+- [x] Al romper todos los bloques del nivel 3 se muestra el overlay "¡Ganaste!" (no "¡Nivel completado!").
+- [x] El HUD muestra `Nivel X/3` con el número correcto durante toda la partida.
+- [x] Perder todas las vidas en cualquier nivel muestra "Game Over"; presionar R reinicia siempre en el nivel 1, con `score: 0`, `lives: 3` y velocidad base.
+- [x] Perder una vida dentro de un nivel (sin llegar a 0) reposiciona la bola sobre la pala manteniendo la velocidad correspondiente al nivel actual (no vuelve a la velocidad base del nivel 1).
 
 ## Decisions
 
