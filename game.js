@@ -164,6 +164,7 @@ function resetGame() {
   state.status = 'playing';
   state.score = 0;
   state.lives = 3;
+  state.level = 0;
   state.paddle.x = 360;
   state.paddle.y = 560;
   state.ball.x = 400;
