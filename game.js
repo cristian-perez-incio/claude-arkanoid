@@ -12,9 +12,10 @@ function playSound( name ) {
 }
 
 const state = {
-  status: 'playing', // 'playing' | 'won' | 'lost'
+  status: 'playing', // 'playing' | 'level-complete' | 'won' | 'lost'
   score: 0,
   lives: 3,
+  level: 0,
   paddle: { x: 360, y: 560, width: 80, height: 16 },
   ball: { x: 400, y: 300, vx: 4, vy: -4, radius: 8 },
   bricks: [],
@@ -126,10 +127,12 @@ const BRICK_OFFSET_TOP = 40;
 const BRICK_OFFSET_LEFT = ( canvas.width - ( BRICK_COLS * BRICK_WIDTH + ( BRICK_COLS - 1 ) * BRICK_MARGIN ) ) / 2;
 const BRICK_ROW_COLORS = [ 'red', 'yellow', 'green', 'cyan', 'magenta', 'hotpink' ];
 
-function createBricks() {
+function createBricks( rows = LEVELS[ state.level ].rows ) {
   const bricks = [];
   for ( let row = 0; row < BRICK_ROWS; row++ ) {
     for ( let col = 0; col < BRICK_COLS; col++ ) {
+      if ( rows[ row ][ col ] !== 'X' ) continue;
+
       bricks.push( {
         x: BRICK_OFFSET_LEFT + col * ( BRICK_WIDTH + BRICK_MARGIN ),
         y: BRICK_OFFSET_TOP + row * ( BRICK_HEIGHT + BRICK_MARGIN ),
