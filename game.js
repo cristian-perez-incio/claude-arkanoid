@@ -54,12 +54,16 @@ function updatePaddle() {
   state.paddle.x = clampPaddleX( state.paddle.x );
 }
 
+const BALL_BASE_SPEED = 4;
+
 function resetBallOnPaddle() {
   const ball = state.ball;
   ball.x = state.paddle.x + state.paddle.width / 2;
   ball.y = state.paddle.y - ball.radius;
-  ball.vx = 4;
-  ball.vy = -4;
+
+  const speed = BALL_BASE_SPEED * ( 1.15 ** state.level );
+  ball.vx = Math.sign( ball.vx ) * speed;
+  ball.vy = Math.sign( ball.vy ) * speed;
 }
 
 function checkPaddleCollision() {
