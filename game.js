@@ -31,6 +31,13 @@ window.addEventListener( 'keydown', ( e ) => {
   if ( ( e.key === 'r' || e.key === 'R' ) && state.status !== 'playing' ) {
     resetGame();
   }
+
+  if ( e.key === ' ' && state.status === 'level-complete' ) {
+    state.level += 1;
+    state.bricks = createBricks();
+    resetBallOnPaddle();
+    state.status = 'playing';
+  }
 } );
 
 window.addEventListener( 'keyup', ( e ) => {
