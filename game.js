@@ -1,6 +1,16 @@
 const canvas = document.getElementById( 'game' );
 const ctx = canvas.getContext( '2d' );
 
+const SOUNDS = {
+  bounce: new Audio( 'assets/sounds/ball-bounce.mp3' ),
+  break: new Audio( 'assets/sounds/break-sound.mp3' ),
+};
+
+function playSound( name ) {
+  const sound = SOUNDS[ name ].cloneNode();
+  sound.play().catch( () => {} );
+}
+
 const state = {
   status: 'playing', // 'playing' | 'won' | 'lost'
   score: 0,
@@ -63,6 +73,7 @@ function checkPaddleCollision() {
     ball.x <= paddle.x + paddle.width
   ) {
     ball.vy *= -1;
+    playSound( 'bounce' );
   }
 }
 
@@ -87,9 +98,11 @@ function update() {
 
   if ( ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width ) {
     ball.vx *= -1;
+    playSound( 'bounce' );
   }
   if ( ball.y - ball.radius < 0 ) {
     ball.vy *= -1;
+    playSound( 'bounce' );
   }
 
   checkPaddleCollision();
@@ -163,6 +176,7 @@ function checkBrickCollisions() {
       ball.vy *= -1;
       state.score += 10;
       spawnExplosion( brick );
+      playSound( 'break' );
       break;
     }
   }
