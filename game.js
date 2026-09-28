@@ -118,7 +118,7 @@ function update() {
 
 function checkWinCondition() {
   if ( state.bricks.every( ( brick ) => !brick.alive ) ) {
-    state.status = 'won';
+    state.status = state.level < LEVELS.length - 1 ? 'level-complete' : 'won';
   }
 }
 
