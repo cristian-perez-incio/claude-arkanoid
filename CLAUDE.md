@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Proyecto
 
-Arkanoid hecho con HTML, CSS y JavaScript vanilla — cero dependencias. Aún no está implementado: por ahora el repo solo contiene assets (`assets/spritesheet-breakout.png`, `assets/spritesheet.js`, `assets/sounds/*.mp3`) y no hay código del juego, ni `index.html`, ni herramientas de build, ni historial de git. Tampoco es todavía un repositorio git.
+Arkanoid hecho con HTML, CSS y JavaScript vanilla — cero dependencias, sin build tools. Se ejecuta abriendo `index.html` directamente (o sirviéndolo estático).
+
+- `index.html` — carga `assets/spritesheet.js`, `levels.js` y `game.js` en orden; `<canvas id="game">` de 800x600.
+- `game.js` — loop principal (`requestAnimationFrame`), estado del juego, input (teclado/mouse), física de colisión, HUD, overlays de fin de nivel/partida.
+- `levels.js` — definición de los 3 niveles (layouts de bloques y progresión de velocidad).
+- `style.css` — estilos mínimos de la página/canvas.
+- `assets/` — spritesheet, sonidos, y el helper `spritesheet.js` (ver API abajo).
 
 ## Flujo de trabajo spec-driven
 
@@ -13,7 +19,12 @@ Este repo usa un flujo de specs en dos pasos (skills provenientes de `Klerith/fe
 - `/spec <descripción>` — aclara una funcionalidad mediante preguntas puntuales y luego escribe `specs/NN-slug.md` (el estado arranca como `Draft`/`Borrador`).
 - `/spec-impl <NN-slug>` — solo continúa si el estado de la spec significa `Approved`/`Aprobado`; si no, se detiene. Al aprobarse, crea/cambia a la rama `spec-NN-slug` e implementa el plan paso a paso, pausando después de cada paso para revisión. La creación automática de rama se controla con `specs/.spec-config.yml` (`AutoCreateBranch`, por defecto `true`).
 
-No escribas código del juego de forma improvisada fuera de este flujo cuando el usuario lo esté siguiendo: primero revisa si existe una spec aprobada en `specs/`. Todavía no existe el directorio `specs/`.
+No escribas código del juego de forma improvisada fuera de este flujo cuando el usuario lo esté siguiendo: primero revisa si existe una spec aprobada en `specs/` que cubra el cambio pedido; si no existe, sugiere `/spec` antes de tocar código.
+
+Specs existentes:
+
+- `specs/01-mvp-arkanoid.md` — MVP jugable de un nivel (pala, bola, bloques, vidas, puntaje, victoria/derrota). Status: Approved.
+- `specs/02-niveles.md` — Progresión de 3 niveles con velocidad creciente y HUD de nivel. Status: Implemented.
 
 ## API del spritesheet (`assets/spritesheet.js`)
 
