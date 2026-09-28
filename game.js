@@ -241,7 +241,13 @@ function drawOverlay() {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.fillRect( 0, 0, canvas.width, canvas.height );
 
-  const message = state.status === 'won' ? '¡Ganaste!' : 'Game Over';
+  const messages = {
+    'level-complete': '¡Nivel completado!',
+    won: '¡Ganaste!',
+    lost: 'Game Over',
+  };
+  const message = messages[ state.status ];
+  const hint = state.status === 'level-complete' ? 'Presiona ESPACIO para continuar' : 'Presiona R para reiniciar';
 
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'center';
@@ -249,7 +255,7 @@ function drawOverlay() {
   ctx.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
 
   ctx.font = `14px ${ RETRO_FONT }`;
-  ctx.fillText( 'Presiona R para reiniciar', canvas.width / 2, canvas.height / 2 + 40 );
+  ctx.fillText( hint, canvas.width / 2, canvas.height / 2 + 40 );
   ctx.textAlign = 'left';
 }
 
